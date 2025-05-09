@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+
+.font-poppins {
+  @apply font-[Poppins];
+}

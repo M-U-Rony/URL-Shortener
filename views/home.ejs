@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/output.css" />
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+    <title>Home Page</title>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-br from-purple-600 to-purple-800 flex flex-col items-center px-4 py-8">
+
+    <h1 class="text-4xl md:text-5xl font-bold text-center mb-10  text-white">URL Shortener</h1>
+
+    <a href="/MyUrls" class="text-white absolute top-4 right-6 underline">My Urls</a>
+
+    <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg w-full max-w-2xl p-6 space-y-6">
+
+      <form action="/createUrl" method="post" class="flex flex-col gap-4 md:flex-row md:items-center justify-between">
+        <label for="input" class="text-lg md:text-xl font-semibold text-purple-700">Enter URL:</label>
+        <input
+          type="text"
+          id="input"
+          name="input"
+          placeholder="https://www.example.com"
+          class="flex-1 p-3 rounded-lg border-2 border-purple-400 text-black focus:outline-none"
+        />
+        <button
+          type="submit"
+          class="bg-purple-700 hover:bg-purple-800 transition text-white px-6 py-3 rounded-lg font-semibold"
+        >
+          Submit
+        </button>
+      </form>
+
+      <div class="flex md:flex-row md:items-center gap-4">
+
+        <label for="shortUrl" class="text-lg md:text-xl font-semibold text-purple-700">Short URL:</label>
+
+        <input
+          type="text"
+          id="shortUrl"
+          name="shortUrl"
+          value="<%= shortUrl %>"
+          class="flex-1 p-3 rounded-lg text-black focus:outline-none"
+          readonly
+        />
+      
+        <button
+          type="button"
+          id="copybtn"
+          title="Copy to clipboard"
+          class="text-purple-600 hover:text-purple-300 text-4xl transition"
+        >
+          <i class="fa-regular fa-clipboard"></i>
+        </button>
+      </div>
+    </div>
+     
+      </div>
+
+    </div>
+
+
+    <script src="/script.js"></script>
+  </body>
+
+</html>
