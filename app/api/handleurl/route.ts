@@ -15,6 +15,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Original URL is required" }, { status: 400 });
         }
 
+        const ishaveAlready = await Url.findOne({originalUrl});
+
+        if(ishaveAlready){
+            return NextResponse.json({ shortUrl: `http://localhost:3000/${ishaveAlready.shortId}` });
+
+        }
+
         const shortId =Math.random().toString(36).substring(2, 10);
 
         await Url.create({

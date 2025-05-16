@@ -1,4 +1,3 @@
-// models/url.ts
 
 import mongoose, { Schema, models, model } from 'mongoose';
 
@@ -18,7 +17,6 @@ const urlSchema = new Schema({
   },
 });
 
-// ✅ Avoid model overwrite in dev (Hot Reloading in Next.js)
 const Url = models.Url || model('Url', urlSchema);
 
 export default Url;
