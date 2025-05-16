@@ -1,11 +1,32 @@
 'use client';
+import { FaRegClipboard } from "react-icons/fa";
 
 import { useState } from 'react';
+import { ClipLoader } from "react-spinners";
 
 export default function Home() {
-  const [shortUrl, setShortUrl] = useState(''); 
+
+  const [shortUrl, setShortUrl] = useState('');
+  const [copied,setcopied] = useState(false);
+  const [loading,setloading] = useState(false);
+  
+  
+  const handlecopy = async() =>{
+
+     try {
+      await navigator.clipboard.writeText(shortUrl);
+      setcopied(true);
+      setTimeout(() => setcopied(false), 2000);
+     
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    setloading(true);
     e.preventDefault(); 
 
     const formData = new FormData(e.currentTarget);
@@ -15,6 +36,7 @@ export default function Home() {
     });
 
     const data = await response.json();
+    setloading(false);
 
     if (data.shortUrl) {
       setShortUrl(data.shortUrl);
@@ -63,13 +85,28 @@ export default function Home() {
         >
           Shortened URL
         </label>
+
+        <div className="flex items-center">
+
         <input
           type="text"
           id="output"
           value={shortUrl}
           readOnly
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700"
+          className="w-[90%] px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700"
         />
+
+        {
+        loading
+        ?
+        <ClipLoader  />
+        :
+        <FaRegClipboard className="ml-[10px] cursor-pointer text-4xl text-blue-600" onClick={handlecopy} />
+        }
+        </div>
+        
+        {copied? <p className="text-green-500 m-2">Url copied to clipboard</p>:null}
+
       </div>
 
       <button
