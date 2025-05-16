@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, { params }: { params: { shortId: str
     try {
         await dbConnection();
 
-         const { shortId } = await params;
+         const { shortId } = params;
 
         const urlEntry = await Url.findOne({ shortId });
 
