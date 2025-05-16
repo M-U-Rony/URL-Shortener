@@ -11,7 +11,7 @@ export async function GET(
 
     const { shortId } = params;
 
-    const urlEntry = await Url.findOne({ shortId });
+    const urlEntry = await Url.findOne({ shortUrl: shortId });
 
     if (!urlEntry) {
       return NextResponse.redirect(new URL('/', req.url)); // Redirect to home if not found
