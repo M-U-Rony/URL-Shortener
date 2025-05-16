@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnection from '@/lib/connection';
 import Url from '@/lib/models/url';
 
-export async function GET(req: NextRequest, { params }: { params: { shortId: string } }) {
+export async function GET(req: NextRequest, {
+  params,
+}: {
+  params: Promise<{ shortId: string }>
+}) {
     try {
         await dbConnection();
 
-         const { shortId } = params;
+         const { shortId } = await params;
 
         const urlEntry = await Url.findOne({ shortId });
 
