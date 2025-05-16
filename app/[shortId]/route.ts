@@ -2,19 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnection from '@/lib/connection';
 import Url from '@/lib/models/url';
 
-export async function GET(
-  req: NextRequest,
-  context: { params: Record<string, string> }  // ✅ use Record instead of custom type
-) {
+type Context = {
+  params: {
+    shortId: string;
+  };
+};
+
+export async function GET(req: NextRequest, context: Context) {
   try {
     await dbConnection();
 
-    const shortId = context.params.shortId;
+    const { shortId } = context.params;
 
     const urlEntry = await Url.findOne({ shortId });
 
     if (!urlEntry) {
-      return NextResponse.redirect(new URL('/', req.url));
+      return NextResponse.redirect(new URL('/', req.url)); // Redirect to home if not found
     }
 
     try {
@@ -24,7 +27,6 @@ export async function GET(
       console.error('Invalid original URL:', urlEntry.originalUrl);
       return NextResponse.redirect(new URL('/', req.url));
     }
-
   } catch (error) {
     console.error('Error fetching URL:', error);
     return NextResponse.redirect(new URL('/', req.url));
