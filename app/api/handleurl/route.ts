@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         const ishaveAlready = await Url.findOne({originalUrl});
 
         if(ishaveAlready){
-            return NextResponse.json({ shortUrl: `http://localhost:3000/${ishaveAlready.shortId}` });
+            return NextResponse.json({ shortUrl: `https://url-shortener-iota-drab.vercel.app/${ishaveAlready.shortId}` });
 
         }
 
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
             shortId,
         });
 
-        return NextResponse.json({ shortUrl: `http://localhost:3000/${shortId}` });
+        return NextResponse.json({ shortUrl: `https://url-shortener-iota-drab.vercel.app/${shortId}` });
 
     } 
     catch (error) {
