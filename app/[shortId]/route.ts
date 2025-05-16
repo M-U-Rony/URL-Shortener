@@ -10,24 +10,23 @@ export async function GET(req: NextRequest, {
     try {
         await dbConnection();
 
-         const { shortId } = await params;
+        const { shortId } = await params;
 
-        const urlEntry = await Url.findOne({ shortId });
+        const urlEntry = await Url.findOne({shortId });
 
         if (!urlEntry) {
-            return NextResponse.redirect(new URL('/', req.url)); // Redirect to home if not found
+            return new NextResponse('Not Found', { status: 404 });
         }
 
-        // Validate and redirect to the original URL
         try {
             const redirectUrl = new URL(urlEntry.originalUrl);
             return NextResponse.redirect(redirectUrl);
         } catch {
             console.error('Invalid original URL:', urlEntry.originalUrl);
-            return NextResponse.redirect(new URL('/', req.url)); // Redirect to home if invalid
+            return new NextResponse('Not Found', { status: 404 });
         }
     } catch (error) {
         console.error('Error fetching URL:', error);
-        return NextResponse.redirect(new URL('/', req.url)); // Redirect to home on error
+        return NextResponse.redirect(new URL('/', req.url));
     }
 }

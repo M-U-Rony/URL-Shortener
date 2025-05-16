@@ -1,6 +1,5 @@
 'use client';
 import { FaRegClipboard } from "react-icons/fa";
-
 import { useState } from 'react';
 import { ClipLoader } from "react-spinners";
 
@@ -70,6 +69,7 @@ export default function Home() {
           Enter URL
         </label>
         <input
+          onChange={()=> setShortUrl('')}
           type="text"
           id="input"
           name="input"
