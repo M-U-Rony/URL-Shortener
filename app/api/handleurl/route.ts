@@ -7,6 +7,8 @@ export async function POST(req: NextRequest) {
     try {
 
         await dbConnection();
+
+        const baseUrl = process.env.NODE_ENV === 'production'? 'https://url-shortener-iota-drab.vercel.app': 'http://localhost:3000';
         
         const body = await req.formData();
         const originalUrl = body.get('input') as string;
@@ -18,7 +20,7 @@ export async function POST(req: NextRequest) {
         const ishaveAlready = await Url.findOne({originalUrl});
 
         if(ishaveAlready){
-            return NextResponse.json({ shortUrl: `https://url-shortener-iota-drab.vercel.app/${ishaveAlready.shortId}` });
+            return NextResponse.json({ shortUrl: `${baseUrl}/${ishaveAlready.shortId}` });
 
         }
 
@@ -29,7 +31,7 @@ export async function POST(req: NextRequest) {
             shortId,
         });
 
-        return NextResponse.json({ shortUrl: `https://url-shortener-iota-drab.vercel.app/${shortId}` });
+        return NextResponse.json({ shortUrl: `${baseUrl}/${shortId}` });
 
     } 
     catch (error) {
