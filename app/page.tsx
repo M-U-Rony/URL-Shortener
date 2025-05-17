@@ -2,6 +2,7 @@
 import { FaRegClipboard } from "react-icons/fa";
 import { useState } from 'react';
 import { ClipLoader } from "react-spinners";
+import { SignInButton,SignedIn,SignedOut,UserButton} from '@clerk/nextjs'
 
 export default function Home() {
 
@@ -47,11 +48,21 @@ export default function Home() {
   return (
     <>
 
- <nav className="bg-blue-600 text-white py-4 px-6 shadow-md relative h-[60px text-center">
+ <nav className="bg-blue-600 text-white py-4 px-6 shadow-md  flex items-center justify-between">
 
-    <p className="text-3xl font-bold">
+    <p className="text-3xl font-bold pl-160">
       URL SHORTENER
     </p>
+
+    <div>
+      <SignedOut>
+          <SignInButton />
+      </SignedOut>
+
+      <SignedIn>
+        <UserButton/>
+      </SignedIn>
+    </div>
 
 </nav>
 
