@@ -3,8 +3,8 @@
 import { useUser } from "@clerk/nextjs";
 import { ScaleLoader } from "react-spinners";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Navbar from "@/components/navbar";
+import BacktoHome from '@/components/backtohome';
 
 function Urls() {
   interface Url {
@@ -39,6 +39,7 @@ function Urls() {
       <>
 
       <Navbar/>
+      <BacktoHome/>
       <p className="flex justify-center items-center w-full mt-20 text-xl sm:text-2xl md:text-3xl font-bold text-center px-2">
         Sign in to see your urls
       </p>
@@ -57,11 +58,8 @@ function Urls() {
   return (
     <>
       <Navbar />
-      <Link href={"/"}>
-        <button className="cursor-pointer m-4 bg-blue-600 h-10 w-32 rounded text-white">
-          Back to home
-        </button>
-      </Link>
+      <BacktoHome/>
+      
       {urls.length === 0 ? (
         <p className="flex justify-center items-center w-full mt-20 text-xl sm:text-2xl md:text-3xl font-bold text-center px-2">
           This account doesn't generate any urls

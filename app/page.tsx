@@ -1,37 +1,32 @@
-'use client';
+"use client";
 import { FaRegClipboard } from "react-icons/fa";
-import { useState } from 'react';
+import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import Navbar from "@/components/navbar";
 
+
 export default function Home() {
+  const [shortUrl, setShortUrl] = useState("");
+  const [copied, setcopied] = useState(false);
+  const [loading, setloading] = useState(false);
 
-  const [shortUrl, setShortUrl] = useState('');
-  const [copied,setcopied] = useState(false);
-  const [loading,setloading] = useState(false);
-  
-  
-  const handlecopy = async() =>{
-
-     try {
+  const handlecopy = async () => {
+    try {
       await navigator.clipboard.writeText(shortUrl);
       setcopied(true);
       setTimeout(() => setcopied(false), 2000);
-     
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
-
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
     setloading(true);
-    e.preventDefault(); 
+    e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const response = await fetch('/api/handleurl', {
-      method: 'POST',
+    const response = await fetch("/api/handleurl", {
+      method: "POST",
       body: formData,
     });
 
@@ -41,76 +36,76 @@ export default function Home() {
     if (data.shortUrl) {
       setShortUrl(data.shortUrl);
     } else {
-      alert(data.error || 'An error occurred');
+      alert(data.error || "An error occurred");
     }
   };
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
 
-  <main className="flex justify-center items-center h-[85vh] bg-gray-100 px-4">
-    <form 
-      onSubmit={handleSubmit} 
-      className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md space-y-4"
-    >
-      <div>
-        <label 
-          htmlFor="input" 
-          className="block text-gray-700 font-semibold mb-1"
+      <main className="flex justify-center items-center h-[85vh] bg-gray-100 px-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md space-y-4"
         >
-          Enter URL
-        </label>
-        <input
-          onChange={()=> setShortUrl('')}
-          type="text"
-          id="input"
-          name="input"
-          required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+          <div>
+            <label
+              htmlFor="input"
+              className="block text-gray-700 font-semibold mb-1"
+            >
+              Enter URL
+            </label>
+            <input
+              onChange={() => setShortUrl("")}
+              type="text"
+              id="input"
+              name="input"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-      <div>
-        <label 
-          htmlFor="output" 
-          className="block text-gray-700 font-semibold mb-1"
-        >
-          Shortened URL
-        </label>
+          <div>
+            <label
+              htmlFor="output"
+              className="block text-gray-700 font-semibold mb-1"
+            >
+              Shortened URL
+            </label>
 
-        <div className="flex items-center">
+            <div className="flex items-center">
+              <input
+                type="text"
+                id="output"
+                value={shortUrl}
+                readOnly
+                className="w-[90%] px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700"
+              />
 
-        <input
-          type="text"
-          id="output"
-          value={shortUrl}
-          readOnly
-          className="w-[90%] px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700"
-        />
+              {loading ? (
+                <ClipLoader />
+              ) : (
+                <FaRegClipboard
+                  className="ml-[10px] cursor-pointer text-4xl text-blue-600"
+                  onClick={handlecopy}
+                />
+              )}
+            </div>
 
-        {
-        loading
-        ?
-        <ClipLoader  />
-        :
-        <FaRegClipboard className="ml-[10px] cursor-pointer text-4xl text-blue-600" onClick={handlecopy} />
-        }
-        </div>
-        
-        {copied? <p className="text-green-500 m-2">Url copied to clipboard</p>:null}
+            {copied ? (
+              <p className="text-green-500 m-2">Url copied to clipboard</p>
+            ) : null}
+          </div>
 
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-      >
-        Generate
-      </button>
-    </form>
-  </main>
-</>
-
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Generate
+          </button>
+        </form> 
+      </main>
+    </>
   );
 }
