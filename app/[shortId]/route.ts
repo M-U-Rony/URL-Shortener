@@ -20,6 +20,8 @@ export async function GET(req: NextRequest, {
 
         try {
             const redirectUrl = new URL(urlEntry.originalUrl);
+             urlEntry.clicks += 1;
+            await urlEntry.save(); 
             return NextResponse.redirect(redirectUrl);
         } catch {
             console.error('Invalid original URL:', urlEntry.originalUrl);

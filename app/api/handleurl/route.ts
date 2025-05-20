@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnection from '@/lib/connection';
 import Url from '@/lib/models/url';
-
+import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: NextRequest) {
     try {
 
         await dbConnection();
+        const { userId } = await auth();
 
         const baseUrl = process.env.NODE_ENV === 'production'? 'https://url-shortener-iota-drab.vercel.app': 'http://localhost:3000';
         
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest) {
         await Url.create({
             originalUrl,
             shortId,
+            createdBy: userId,
         });
 
         return NextResponse.json({ shortUrl: `${baseUrl}/${shortId}` });
