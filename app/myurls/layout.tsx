@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { ClerkProvider} from '@clerk/nextjs'
-import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "My Urls",
   description: "From here you can generate shortlink",
 };
 
@@ -15,11 +14,9 @@ export default function RootLayout({
 
   return (
      <ClerkProvider>
-      <html lang="en">
-        <body>
-          {children}
-        </body>
-      </html>
+   
+        {children}
+      
     </ClerkProvider>
   );
 }

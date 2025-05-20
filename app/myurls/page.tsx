@@ -37,6 +37,7 @@ function Urls() {
   if(!isSignedIn){
     return(
       <>
+
       <Navbar/>
       <p className="flex justify-center items-center w-full mt-20 text-xl sm:text-2xl md:text-3xl font-bold text-center px-2">
         Sign in to see your urls
@@ -82,7 +83,7 @@ function Urls() {
               {urls.map((url, index) => (
                 <tr key={index}>
                   <td className="border border-gray-400 px-4 sm:px-8 py-2 text-center break-all">
-                    http://localhost:3000/{url.shortId}
+                   url-shortener-iota-drab.vercel.app/{url.shortId}
                   </td>
                   <td className="border border-gray-400 px-2 sm:px-6 py-2 text-center">
                     {url.clicks}
@@ -92,9 +93,16 @@ function Urls() {
             </tbody>
           </table>
         </div>
+       
       )}
+
+      <div className="h-[30px]">
+
+      </div>
     </>
   );
 }
 
 export default Urls;
+
+
