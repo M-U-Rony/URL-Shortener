@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
      <ClerkProvider>
       <html lang="en">
-        <body>
+        <body className="vsc-initialized" data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
           {children}
         </body>
       </html>

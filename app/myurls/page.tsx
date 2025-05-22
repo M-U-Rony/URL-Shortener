@@ -4,7 +4,6 @@ import { useUser } from "@clerk/nextjs";
 import { ScaleLoader } from "react-spinners";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
-import BacktoHome from '@/components/backtohome';
 
 function Urls() {
   interface Url {
@@ -17,7 +16,8 @@ function Urls() {
   const [loading, setloading] = useState(true);
 
   useEffect(() => {
-    if (isSignedIn && isLoaded) {
+
+    if (isSignedIn) {
       const fetchurls = async () => {
         try {
           const res = await fetch("/api/userurls");
@@ -32,73 +32,81 @@ function Urls() {
 
       fetchurls();
     }
+    else{
+      setloading(false);
+    }
   }, [isLoaded, isSignedIn]);
 
-  if(!isSignedIn){
+   if (!isLoaded)
+    return (
+      <div className="flex justify-center items-center h-[100vh] w-[95vw]">
+        <ScaleLoader color="#ffffff" />
+      </div>
+    );
+
+  else if(!isSignedIn){
     return(
       <>
-
       <Navbar/>
-      <BacktoHome/>
-      <p className="flex justify-center items-center w-full mt-20 text-xl sm:text-2xl md:text-3xl font-bold text-center px-2">
+      <p className="flex justify-center items-center h-full w-full text-xl sm:text-2xl md:text-3xl font-bold text-center px-2 text-white">
         Sign in to see your urls
       </p>
       </>
     )
     
   }
-  else if (loading)
+  else{
+
     return (
-      <div className="flex justify-center items-center h-[100vh] w-[100vw]">
-        <ScaleLoader />
-      </div>
-    );
-
-
-  return (
-    <>
-      <Navbar />
-      <BacktoHome/>
-      
-      {urls.length === 0 ? (
-        <p className="flex justify-center items-center w-full mt-20 text-xl sm:text-2xl md:text-3xl font-bold text-center px-2">
-          This account doesn't generate any urls
+      <>
+        <Navbar />
+        
+        {urls.length === 0 && loading ? (
+          <p className="flex justify-center items-center h-full w-full text-xl sm:text-2xl md:text-3xl font-bold text-center px-2 text-white">
+          This account doesn't have any generated urls
         </p>
-      ) : (
-        <div className="flex justify-center items-center w-full overflow-x-auto px-2">
-          <table className="min-w-[320px] w-full max-w-2xl border-collapse border border-gray-400 bg-white text-xs sm:text-sm md:text-base">
-            <thead>
-              <tr>
-                <th className="border border-gray-400 px-4 sm:px-8 py-2 sm:py-4">
-                  Urls
-                </th>
-                <th className="border border-gray-400 px-2 sm:px-6 py-2 sm:py-4">
-                  Clicks
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {urls.map((url, index) => (
-                <tr key={index}>
-                  <td className="border border-gray-400 px-4 sm:px-8 py-2 text-center break-all">
-                   url-shortener-iota-drab.vercel.app/{url.shortId}
-                  </td>
-                  <td className="border border-gray-400 px-2 sm:px-6 py-2 text-center">
-                    {url.clicks}
-                  </td>
+        ) : (
+          <div className="flex justify-center items-center overflow-x-auto px-2">
+            <table className="mt-20 text-white min-w-[300px] w-full max-w-2xl border-collapse border border-gray-400 bg-gray-900 text-xs sm:text-sm md:text-base">
+              <thead>
+                <tr>
+                  <th className="border border-gray-400 px-4 sm:px-8 py-2 sm:py-4">
+                    Urls
+                  </th>
+                  <th className="border border-gray-400 px-2 sm:px-6 py-2 sm:py-4">
+                    Clicks
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {urls.map((url, index) => (
+                  <tr key={index}>
+                    
+                    <td className="border border-gray-400 px-4 sm:px-8 py-2 text-center break-all">
+                    
+                     <a href={`${url.shortId}`} target="_blank">
+                      url-shortener-iota-drab.vercel.app/{url.shortId}
+                     </a>
+          
+                    </td>
+                    <td className="border border-gray-400 px-2 sm:px-6 py-2 text-center">
+                      {url.clicks}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+         
+        )}
+  
+        <div className="h-[30px]">
+  
         </div>
-       
-      )}
-
-      <div className="h-[30px]">
-
-      </div>
-    </>
-  );
+      </>
+    );
+  }
+ 
 }
 
 export default Urls;
