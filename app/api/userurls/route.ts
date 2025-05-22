@@ -12,7 +12,19 @@ export async function GET(req: NextRequest){
 
         const {userId} = await auth();
 
-        const urls = await Url.find({createdBy: userId});
+        const sortby = req.nextUrl.searchParams.get('sortby');
+
+        let urls;
+
+        if(sortby === 'date'){
+
+            urls = await Url.find({createdBy: userId});
+
+        }else{
+
+            urls = await Url.find({createdBy: userId}).sort({ clicks: -1 });
+        }
+
 
         return NextResponse.json({urls});
 

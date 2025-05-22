@@ -14,13 +14,14 @@ function Urls() {
   const { isLoaded, isSignedIn } = useUser();
   const [urls, seturls] = useState<Url[]>([]);
   const [loading, setloading] = useState(true);
+  const [sortby,setsortby] = useState('mostclicks');
 
   useEffect(() => {
 
     if (isSignedIn) {
       const fetchurls = async () => {
         try {
-          const res = await fetch("/api/userurls");
+          const res = await fetch(`/api/userurls?sortby=${sortby}`);
           const data = await res.json();
 
           seturls(data.urls);
@@ -35,9 +36,9 @@ function Urls() {
     else{
       setloading(false);
     }
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn,loading,sortby]);
 
-   if (!isLoaded)
+   if (!isLoaded || loading)
     return (
       <div className="flex justify-center items-center h-[100vh] w-[95vw]">
         <ScaleLoader color="#ffffff" />
@@ -66,6 +67,17 @@ function Urls() {
           This account doesn't have any generated urls
         </p>
         ) : (
+          <> 
+          <div className="border border-white text-white absolute left-12 top-20">
+            <label htmlFor="dropdown">Sort By:</label>
+            <br />
+            <select  id="dropdown" value={sortby} className="bg-gray-900 border border-white" onChange={(e)=> {
+              setsortby(e.target.value);
+              setloading(true)}}>
+                <option value="mostclicks">Most Clicks</option>
+                <option value="date">Date</option>
+            </select>
+          </div>
           <div className="flex justify-center items-center overflow-x-auto px-2">
             <table className="mt-20 text-white min-w-[300px] w-full max-w-2xl border-collapse border border-gray-400 bg-gray-900 text-xs sm:text-sm md:text-base">
               <thead>
@@ -97,6 +109,7 @@ function Urls() {
               </tbody>
             </table>
           </div>
+          </>
          
         )}
   
