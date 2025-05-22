@@ -61,7 +61,7 @@ function Urls() {
       <>
         <Navbar />
         
-        {urls.length === 0 && loading ? (
+        {urls.length === 0 && loading===false ? (
           <p className="flex justify-center items-center h-full w-full text-xl sm:text-2xl md:text-3xl font-bold text-center px-2 text-white">
           This account doesn't have any generated urls
         </p>
