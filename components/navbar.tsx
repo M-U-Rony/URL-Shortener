@@ -19,7 +19,7 @@ export default function Navbar() {
   else {
     return (
    
-      <nav className="bg-gray-950 text-white  flex items-center justify-between w-[98vw] pt-3 fixed mt-0">
+      <nav className="bg-gray-950 text-white  flex items-center justify-between w-[98vw] pt-3 fixed mt-0 z-10">
         <Link href={'/'} className="pl-6">
         <Image src={'/Cut.png'} alt="Logo" height={60} width={60}/>
         </Link>
