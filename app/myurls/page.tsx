@@ -73,7 +73,7 @@ function Urls() {
         </div>
         ) : (
           <> 
-          <div className=" text-white absolute left-2 px-2 top-25">
+          <div className=" text-white left-2 px-2 top-25 fixed">
             <label htmlFor="dropdown">Sort By:</label>
             <br />
             <select  id="dropdown" value={sortby} className="bg-gray-900 border border-white" onChange={(e)=> {
