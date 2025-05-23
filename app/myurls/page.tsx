@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { ScaleLoader } from "react-spinners";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";
+import Link from "next/link";
 
 function Urls() {
   interface Url {
@@ -63,23 +64,27 @@ function Urls() {
         <Navbar />
         
         {urls.length === 0 && loading===false ? (
-          <p className="flex justify-center items-center h-full w-full text-xl sm:text-2xl md:text-3xl font-bold text-center px-2 text-white">
-          This account doesn't have any generated urls
-        </p>
+          <div className="flex flex-col justify-center items-center h-full w-full text-xl sm:text-2xl md:text-3xl font-bold text-center px-2 text-white">
+          <p>This account doesn't have any generated urls</p>
+          
+          <Link href={'/generate'}> <button className="px-4 py-3 rounded-xl text-xl mt-3 bg-gray-950 border-1 border-white transition text-white cursor-pointer">
+           Generate
+          </button> </Link>
+        </div>
         ) : (
           <> 
-          <div className="border border-white text-white absolute left-12 top-20">
+          <div className=" text-white absolute left-2 px-2 top-25">
             <label htmlFor="dropdown">Sort By:</label>
             <br />
             <select  id="dropdown" value={sortby} className="bg-gray-900 border border-white" onChange={(e)=> {
               setsortby(e.target.value);
               setloading(true)}}>
                 <option value="mostclicks">Most Clicks</option>
-                <option value="date">Date</option>
+                <option value="date">Date Created</option>
             </select>
           </div>
           <div className="flex justify-center items-center overflow-x-auto px-2">
-            <table className="mt-20 text-white min-w-[300px] w-full max-w-2xl border-collapse border border-gray-400 bg-gray-900 text-xs sm:text-sm md:text-base">
+            <table className="mt-40 text-white min-w-[300px] w-full max-w-2xl border-collapse border border-gray-400 bg-gray-900 text-xs sm:text-sm md:text-base">
               <thead>
                 <tr>
                   <th className="border border-gray-400 px-4 sm:px-8 py-2 sm:py-4">
