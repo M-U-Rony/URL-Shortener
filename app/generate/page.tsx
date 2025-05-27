@@ -3,18 +3,19 @@ import { FaRegClipboard } from "react-icons/fa";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import Navbar from "@/components/navbar";
+import {Tooltip,TooltipContent,TooltipProvider,TooltipTrigger,} from "@/components/ui/tooltip"
+import { toast } from "sonner"
+
 
 function GenerateUrl() {
 
   const [shortUrl, setShortUrl] = useState("");
-  const [copied, setcopied] = useState(false);
   const [loading, setloading] = useState(false);
 
   const handlecopy = async () => {
     try {
       await navigator.clipboard.writeText(shortUrl);
-      setcopied(true);
-      setTimeout(() => setcopied(false), 2000);
+    
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -86,21 +87,41 @@ function GenerateUrl() {
               {loading ? (
                 <ClipLoader color="#d1d5dc" />
               ) : (
-                <FaRegClipboard
+                <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+
+
+                  <FaRegClipboard
                   className="ml-[10px] cursor-pointer text-4xl text-white"
-                  onClick={handlecopy}
+                  
+              
+                 onClick={(e) => {
+
+                  e.preventDefault();
+                  handlecopy();
+                  toast("URL copied to clipboard!");
+                }}
                 />
+
+
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Copy to Clipboard</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+                
               )}
             </div>
 
-            {copied ? (
-              <p className="text-green-500 m-2">Url copied to clipboard</p>
-            ) : null}
           </div>
+
 
           <button
             type="submit"
-            className="w-full text-white py-2 px-4 rounded-lg border border-gray-300 animate-pulse"
+            className="w-full text-white py-2 px-4 rounded-lg border border-gray-300 animate-pulse cursor-pointer"
           >
             Generate
           </button>
